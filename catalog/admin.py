@@ -5,12 +5,12 @@ from .models import Author, Genre, Book, BookInstance
 
 
 @admin.register(Author)
-class AuthorAdmin(Author.ModelAdmin):
+class AuthorAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(Genre)
-class GenreAdmin(Genre.ModelAdmin):
+class GenreAdmin(admin.ModelAdmin):
     pass
 
 
