@@ -30,7 +30,8 @@ class Book(models.Model):
     # Model representing a book ( not a specific copy of book )
     title = models.CharField(max_length=200)
 
-    # Foreign key is used because book can have only one author but an author can have multiple book
+    # Foreign key is used because book can have
+    # only one author but an author can have multiple book
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
 
     summary = models.TextField(
