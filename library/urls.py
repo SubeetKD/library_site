@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
+# Include the urls of the catalog app
 urlpatterns += [
     path('catalog/',include('catalog.urls')),
 ]
