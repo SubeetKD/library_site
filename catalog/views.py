@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from catalog.models import Genre, Book, BookInstance, Author
 from django.views import generic
-
+from django.http import Http404
 
 def index(request):
     # view function for homepage
@@ -42,11 +42,22 @@ class BookListView(generic.ListView):
 
     # We can also override context 
     def get_context_data(self,**kwargs):
-
         # The order is important
+        # Don't know what is super
         context = super(BookListView, self).get_context_data(**kwargs)
         context['some_data'] = 'This is just some data'
         return context
 
 class BookDetailView(generic.ListView):
+    # It will pass the model to your database
+    # Template 
+    model = Book
 
+# What happens when there is no entry
+# def book_detail_view(request,primary_key):
+#     try:
+#         book = Book.objects.get(pk=primary_key)
+#     except Book.DoesNotExists:
+#         raise Http404('Book does not exists')
+
+#     return render(request,'catalog/book_detail.html',context={'book' : book})
