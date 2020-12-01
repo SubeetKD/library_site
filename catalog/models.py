@@ -14,8 +14,6 @@ class Genre(models.Model):
         return self.name
 
 # Language Model
-
-
 class Language(models.Model):
     language = models.CharField(
         max_length=50, help_text='Enter the language of the book.')
@@ -24,8 +22,6 @@ class Language(models.Model):
         return self.language
 
 # Book model
-
-
 class Book(models.Model):
     # Model representing a book ( not a specific copy of book )
     title = models.CharField(max_length=200)
@@ -54,8 +50,6 @@ class Book(models.Model):
         return reverse('book-detail', args=[str(self.id)])
 
 # BookInstance Model
-
-
 class BookInstance(models.Model):
     # Model representing a specific instance of book
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
@@ -81,8 +75,6 @@ class BookInstance(models.Model):
         return f'{self.id} ({self.book.title})'
 
 # Author Model
-
-
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)

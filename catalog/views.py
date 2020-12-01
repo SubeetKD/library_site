@@ -35,6 +35,9 @@ class BookListView(generic.ListView):
 
     model = Book
 
+    # When there are too many entries
+    paginate_by = 10
+
     # How to OverridesObject 
     # context_object_name = 'my_book_list'
     # queryset = Book.objects.filter(title__icontians='war')[:5]
