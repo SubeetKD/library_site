@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // check if user already taken that book
-        List<BookInstanceEntity> currentEntry = this.bookInstanceRepository.findByUserIdAndBookID(userId, bookId);
+        List<BookInstanceEntity> currentEntry = this.bookInstanceRepository.findByUserIdAndBookId(userId, bookId);
 
         // don't add if already there
         if (!currentEntry.isEmpty()) {
@@ -81,6 +81,19 @@ public class UserServiceImpl implements UserService {
         this.bookInstanceRepository.saveAll(currentEntry);
         this.userRepository.save(userEntity);
         this.bookRepository.save(bookEntity);
+    }
+
+    @Override
+    public UserDto createUser(UserDto userDto) {
+        UserEntity userEntity = convertToEntity(userDto);
+        return convertToDto(this.userRepository.save(userEntity));
+    }
+
+    private UserEntity convertToEntity(UserDto userDto) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setName(userDto.getName());
+        userEntity.setRentBook(0);
+        return userEntity;
     }
 
     private UserDto convertToDto(UserEntity userEntity) {

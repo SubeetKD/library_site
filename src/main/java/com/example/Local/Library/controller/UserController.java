@@ -2,25 +2,33 @@ package com.example.Local.Library.controller;
 
 import com.example.Local.Library.dto.UserDto;
 import com.example.Local.Library.service.UserService;
+import com.example.Local.Library.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
+
+    @Autowired
+    private ResponseBuilder responseBuilder;
 
     @Autowired
     private UserService userService;
 
     // get user details
     @GetMapping("/user/{userId}/details")
-    public UserDto getUserDetails(@PathVariable Long userId) throws Exception {
-        return userService.getUserDetails(userId);
+    public ResponseEntity getUserDetails(@PathVariable Long userId) throws Exception {
+        return this.responseBuilder.getSuccessfulResponse(HttpStatus.OK, userService.getUserDetails(userId));
     }
 
-    // get wish list details
+    @PostMapping("create/user")
+    public ResponseEntity createUser(@RequestBody UserDto userDto) {
+        return this.responseBuilder.getSuccessfulResponse(HttpStatus.CREATED, userService.createUser(userDto));
+    }
+
+    // todo get wish list details
     @GetMapping("/user/{userId}/wishlist")
     public void getUserWishlistdetails(@PathVariable Long userId) {
 
@@ -28,8 +36,9 @@ public class UserController {
 
     // rent a book
     @PostMapping("/user/{userId}/book/{bookId}/rentBook")
-    public void rentBook(@PathVariable Long userId, @PathVariable Long bookId) throws Exception {
+    public ResponseEntity rentBook(@PathVariable Long userId, @PathVariable Long bookId) throws Exception {
         userService.rentBook(userId, bookId);
+        return this.responseBuilder.getSuccessfulResponse(HttpStatus.CREATED, null);
     }
 
     // request for book
