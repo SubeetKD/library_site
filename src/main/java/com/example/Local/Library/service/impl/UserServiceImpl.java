@@ -1,5 +1,7 @@
 package com.example.Local.Library.service.impl;
 
+import com.example.Local.Library.enums.BookStatusEnum;
+import com.example.Local.Library.dto.BookInstanceDto;
 import com.example.Local.Library.dto.UserDto;
 import com.example.Local.Library.entity.BookEntity;
 import com.example.Local.Library.entity.BookInstanceEntity;
@@ -10,10 +12,10 @@ import com.example.Local.Library.repository.UserRepository;
 import com.example.Local.Library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /*
 
@@ -68,7 +70,7 @@ public class UserServiceImpl implements UserService {
         BookInstanceEntity entity = new BookInstanceEntity();
         entity.setBookId(bookId);
         entity.setUserId(userId);
-        entity.setStatus("RENTED");
+        entity.setStatus(BookStatusEnum.RENTED.getValue());
 
         // update user status
         userEntity.setCost(userEntity.getCost() + bookEntity.getCost());
@@ -87,6 +89,25 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         UserEntity userEntity = convertToEntity(userDto);
         return convertToDto(this.userRepository.save(userEntity));
+    }
+
+    @Override
+    public List<BookInstanceDto> submitBook(Long userId, Long bookId) throws Exception {
+        List<BookInstanceEntity> userCurrentBook = this.bookInstanceRepository.findByUserIdAndBookIdAndStatus(userId, bookId, BookStatusEnum.RENTED.getValue());
+        if (userCurrentBook == null || userCurrentBook.isEmpty()) {
+            throw new Exception("No book found");
+        }
+        userCurrentBook.forEach(val -> val.setStatus(BookStatusEnum.RETURNED.getValue()));
+        this.bookInstanceRepository.saveAll(userCurrentBook);
+        return userCurrentBook.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    private BookInstanceDto convertToDto(BookInstanceEntity entity) {
+        BookInstanceDto result = new BookInstanceDto();
+        result.setUserId(entity.getUserId());
+        result.setBookId(entity.getBookId());
+        result.setStatus(entity.getStatus());
+        return result;
     }
 
     private UserEntity convertToEntity(UserDto userDto) {

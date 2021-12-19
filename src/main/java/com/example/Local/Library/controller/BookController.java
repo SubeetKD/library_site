@@ -26,7 +26,6 @@ public class BookController {
         return this.responseBuilder.getSuccessfulResponse(HttpStatus.OK, this.bookService.getBookDetails(bookId));
     }
 
-
     // add book
     @PostMapping("/add/book")
     public List<BookDto> addBook(@RequestBody BookListDto bookDtoList) {

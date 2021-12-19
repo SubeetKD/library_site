@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BookInstanceRepository extends JpaRepository<BookInstanceEntity, Long> {
     List<BookInstanceEntity> findByUserIdAndBookId(Long userId, Long bookId);
+    List<BookInstanceEntity> findByUserIdAndBookIdAndStatus(Long userId, Long bookId, String status);
 }

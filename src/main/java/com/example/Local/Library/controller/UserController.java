@@ -28,6 +28,11 @@ public class UserController {
         return this.responseBuilder.getSuccessfulResponse(HttpStatus.CREATED, userService.createUser(userDto));
     }
 
+    @RequestMapping(value = "/user/{userId}/book/{bookId}/submit", method = RequestMethod.PATCH)
+    public ResponseEntity submitbook(@PathVariable Long userId, @PathVariable Long bookId) throws Exception {
+        return this.responseBuilder.getSuccessfulResponse(HttpStatus.ACCEPTED, this.userService.submitBook(userId, bookId));
+    }
+
     // todo get wish list details
     @GetMapping("/user/{userId}/wishlist")
     public void getUserWishlistdetails(@PathVariable Long userId) {
