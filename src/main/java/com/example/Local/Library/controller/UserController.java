@@ -28,7 +28,7 @@ public class UserController {
 
     // rent a book
     @PostMapping("/user/{userId}/book/{bookId}/rentBook")
-    public void rentBook(@PathVariable Long userId, @PathVariable Long bookId) {
+    public void rentBook(@PathVariable Long userId, @PathVariable Long bookId) throws Exception {
         userService.rentBook(userId, bookId);
     }
 

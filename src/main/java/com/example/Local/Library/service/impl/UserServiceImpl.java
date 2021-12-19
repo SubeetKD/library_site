@@ -10,6 +10,7 @@ import com.example.Local.Library.repository.UserRepository;
 import com.example.Local.Library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 TODO:
     1. move this user not found and book not found.
+    2. add db lock in the renting of book.
  */
 
 
@@ -72,6 +74,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setCost(userEntity.getCost() + bookEntity.getCost());
         userEntity.incrementRentBook();
 
+        // todo book related stuff in the book service ?
         // update book status
         bookEntity.incrementRent();
 
