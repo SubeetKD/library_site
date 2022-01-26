@@ -73,12 +73,23 @@ public class UserServiceImpl implements UserService {
         entity.setStatus(BookStatusEnum.RENTED.getValue());
 
         // update user status
-        userEntity.setCost(userEntity.getCost() + bookEntity.getCost());
+
+        double userCost = userEntity.getCost();
+        double bookCost = bookEntity.getCost();
+
+        userEntity.setCost(userCost + bookCost);
         userEntity.incrementRentBook();
 
         // todo book related stuff in the book service ?
         // update book status
         bookEntity.incrementRent();
+
+        BookInstanceEntity bookInstanceEntity = new BookInstanceEntity();
+        bookInstanceEntity.setBookId(bookId);
+        bookInstanceEntity.setUserId(userId);
+        bookInstanceEntity.setStatus(BookStatusEnum.RENTED.getValue());
+
+        currentEntry.add(bookInstanceEntity);
 
         this.bookInstanceRepository.saveAll(currentEntry);
         this.userRepository.save(userEntity);

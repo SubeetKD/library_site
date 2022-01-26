@@ -5,11 +5,12 @@ import com.example.Local.Library.dto.ResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @RestControllerAdvice
-public class ExceptionHandler {
+public class ExceptionHandlerConfig {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)
+    @ExceptionHandler(value = Exception.class)
     public ResponseEntity defaultHandler() {
         ResponseDto responseDto = new ResponseDto();
         MetadataDto metadataDto = new MetadataDto();

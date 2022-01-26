@@ -19,8 +19,8 @@ public class UserEntity {
     @Id @GeneratedValue
     private Long id;
     private String name;
-    private Integer rentBook;
-    private Double cost;
+    private int rentBook;
+    private double cost;
 
     @Column(name = "created_at")
     @CreatedDate
